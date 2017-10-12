@@ -1,4 +1,12 @@
-import { AppRegistry } from 'react-native';
-import App from './App';
+import { Navigation } from 'react-native-navigation';
 
-AppRegistry.registerComponent('SkyWatch', () => App);
+import { registerScreens } from './Screens';
+
+registerScreens();
+
+Navigation.startSingleScreenApp({
+  screen: {
+    screen: 'home',
+    title: 'SkyWatch'
+  }
+});
