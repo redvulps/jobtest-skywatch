@@ -11,12 +11,14 @@ import {
 } from 'react-native';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
+import Swiper from 'react-native-swiper';
 import * as locationsActions from '../actions/locations';
+
+import WeatherCover from './WeatherCover';
 
 const mapStateToProps = (state, ownProps) => {
   return {
-    defaultLocation: state.locations.locations.find((l) => l.default),
-    otherLocations: state.locations.locations.filter((l) => !l.default),
+    locations: state.locations.locations,
     shouldRequestForGeolocationPermission: state.locations.shouldRequestForGeolocationPermission,
     defaultLocationError: state.locations.defaultLocationError,
     defaultLocationErrorMessage: state.locations.defaultLocationErrorMessage
@@ -79,50 +81,36 @@ class HomeScreen extends Component {
     }
   }
 
-  renderDefaultLocation() {
-    const {
-      defaultLocation,
-      defaultLocationErrorMessage,
-      shouldRequestForGeolocationPermission
-    } = this.props;
+  renderWeatherList() {
+    const { locations, defaultLocationError } = this.props
 
-    if (defaultLocation) {
+    if (this.state.loading && !locations.length) {
       return (
         <View>
-          <Text>{ defaultLocation.name }</Text>
+          <Text>Loading...</Text>
         </View>
-      );
+      )
     } else {
-      if (this.state.loading) {
-        return;
+      if (!locations.length && defaultLocationError) {
+        return (
+          <View>
+            <Image source={ require('../../assets/icons/sad-cloud.png') } />
+            <Text>{ defaultLocationErrorMessage }</Text>
+          </View>
+        );
+      } else {
+        return locations.map((location, index) => {
+          return <WeatherCover key={ `weather.${index}` } name={ location.name } weather={ location.weather } />
+        });
       }
-
-      return (
-        <View>
-          <Image source={ require('../../assets/icons/sad-cloud.png') } />
-          <Text>{ defaultLocationErrorMessage }</Text>
-        </View>
-      );
-    }
-  }
-
-  renderOtherLocations() {
-    const {
-      otherLocations
-    } = this.props;
-
-    if (otherLocations.length) {
-      return <Text>Other component list</Text>;
     }
   }
 
   render() {
     return (
-      <View>
-        { this.renderLoading() }
-        { this.renderDefaultLocation() }
-        { this.renderOtherLocations() }
-      </View>
+      <Swiper showsButtons={ false } showsPagination={ true }>
+        { this.renderWeatherList() }
+      </Swiper>
     );
   }
 }
