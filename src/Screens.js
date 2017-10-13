@@ -9,14 +9,14 @@ import { compose, createStore } from 'redux';
 import { Provider } from 'react-redux';
 import { persistStore } from 'redux-persist';
 
-import HomeScreen from './src/components/HomeScreen';
-import AddLocation from './src/components/AddLocation';
+import HomeScreen from './components/HomeScreen';
+import AddLocation from './components/AddLocation';
 
-import configureStore from './src/reducers/configureStore';
+import configureStore from './reducers/configureStore';
 
 const store = configureStore();
 
-persistStore(store, { storage: AsyncStorage });
+persistStore(store, { storage: AsyncStorage }).purge();
 
 export function registerScreens() {
   Navigation.registerComponent('home', () => HomeScreen, store, Provider);
