@@ -66,8 +66,9 @@ class HomeScreen extends Component {
   onNavigatorEvent(event) {
     if (event.type == 'NavBarButtonPress') {
       if (event.id == 'add_location') {
-        this.props.navigator.push({
-          screen: 'locations.add'
+        this.props.navigator.showModal({
+          screen: 'locations.add',
+          title: 'Add Location'
         });
       }
     }
