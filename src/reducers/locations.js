@@ -1,3 +1,4 @@
+import { REHYDRATE } from 'redux-persist/constants';
 import {
   ADD_LOCATION,
   ADD_LOCATION_ERROR,
@@ -20,16 +21,17 @@ export default function(state = initialState, action) {
 
   switch(action.type) {
     case ADD_LOCATION:
-      let defaultLocationAt = state.locations.findIndex((location) => location.default)
+      const defaultLocationAt = state.locations.findIndex((location) => location.default)
       newState = cloneState({ shouldRequestForGeolocationPermission: false });
 
-      if (defaultLocationAt == -1) {
-        newState.locations.push(payload);
-      } else {
+
+      if (defaultLocationAt != -1 && payload.default) {
         newState.locations[defaultLocationAt] = payload;
         newState.hasDefaultBefore = true;
         newState.defaultLocationError = false;
         newState.defaultLocationErrorMessage = null;
+      } else {
+        newState.locations = newState.locations.concat([payload]);
       }
 
       break;
@@ -48,6 +50,11 @@ export default function(state = initialState, action) {
       newState.locations.splice(payload, 1);
 
       break;
+
+    case REHYDRATE:
+      if (payload.locations) {
+        newState = payload.locations;
+      }
   }
 
   if (newState) {
