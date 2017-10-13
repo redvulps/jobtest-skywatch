@@ -1,3 +1,4 @@
+import uuidv4 from 'uuid/v4';
 import { REHYDRATE } from 'redux-persist/constants';
 import {
   ADD_LOCATION,
@@ -23,7 +24,7 @@ export default function(state = initialState, action) {
     case ADD_LOCATION:
       const defaultLocationAt = state.locations.findIndex((location) => location.default)
       newState = cloneState({ shouldRequestForGeolocationPermission: false });
-
+      payload.id = uuidv4();
 
       if (defaultLocationAt != -1 && payload.default) {
         newState.locations[defaultLocationAt] = payload;
