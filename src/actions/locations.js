@@ -89,8 +89,14 @@ export function setDefaultLocation({lat = null, lng = null, error = false} = {})
   }
 }
 
-export function addLocation() {
-
+export function addLocation({ name, location } = {}) {
+  return {
+    type: ADD_LOCATION,
+    payload: {
+      name: name,
+      weather: location
+    }
+  }
 }
 
 export function removeLocation(locationId) {
