@@ -48,7 +48,7 @@ export default function(state = initialState, action) {
       break;
     case REMOVE_LOCATION:
       newState = cloneState();
-      newState.locations.splice(payload, 1);
+      newState.locations = [].concat(newState.locations.splice(state.locations.findIndex((location) => location.id == payload), 1));
 
       break;
 

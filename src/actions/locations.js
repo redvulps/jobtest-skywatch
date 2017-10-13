@@ -100,5 +100,8 @@ export function addLocation({ name, location } = {}) {
 }
 
 export function removeLocation(locationId) {
-
+  return {
+    type: REMOVE_LOCATION,
+    payload: locationId
+  };
 }
