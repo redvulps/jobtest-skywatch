@@ -11,6 +11,7 @@ import {
 } from 'react-native';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
+import uuidv4 from 'uuid/v4';
 import Swiper from 'react-native-swiper';
 import * as locationsActions from '../actions/locations';
 
@@ -101,7 +102,13 @@ class HomeScreen extends Component {
         );
       } else {
         return locations.map((location, index) => {
-          return <WeatherCover key={ `weather.${index}` } name={ location.name } weather={ location.weather } />
+          return <WeatherCover
+            key={ `weather.${uuidv4()}` }
+            name={ location.name }
+            weather={ location.weather }
+            id={ location.id }
+            defaultLocation={ location.default }
+            removeLocation={ () => this.props.actions.removeLocation(location.id) }  />
         });
       }
     }
