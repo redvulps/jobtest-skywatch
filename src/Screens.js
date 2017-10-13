@@ -16,7 +16,7 @@ import configureStore from './reducers/configureStore';
 
 const store = configureStore();
 
-persistStore(store, { storage: AsyncStorage }).purge();
+persistStore(store, { storage: AsyncStorage });
 
 export function registerScreens() {
   Navigation.registerComponent('home', () => HomeScreen, store, Provider);
