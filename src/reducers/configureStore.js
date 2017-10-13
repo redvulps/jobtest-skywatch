@@ -1,4 +1,5 @@
 import { createStore, combineReducers, applyMiddleware } from 'redux';
+import { autoRehydrate } from 'redux-persist';
 import thunkMiddleware from 'redux-thunk';
 import loggerMiddleware from 'redux-logger';
 import locations from './locations';
@@ -19,6 +20,7 @@ export default function configureStore(initialState) {
   return createStore(
     allReducers,
     initialState,
-    applyMiddleware(...middleware)
+    applyMiddleware(...middleware),
+    autoRehydrate()
   );
 }
