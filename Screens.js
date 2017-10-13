@@ -7,7 +7,7 @@ import { Navigation } from 'react-native-navigation';
 import { AsyncStorage } from 'react-native'
 import { compose, createStore } from 'redux';
 import { Provider } from 'react-redux';
-import { persistStore, autoRehydrate } from 'redux-persist';
+import { persistStore } from 'redux-persist';
 
 import HomeScreen from './src/components/HomeScreen';
 import AddLocation from './src/components/AddLocation';
